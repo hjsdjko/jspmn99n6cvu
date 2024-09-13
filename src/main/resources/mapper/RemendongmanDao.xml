@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dao.RemendongmanDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.entity.RemendongmanEntity" id="remendongmanMap">
+        <result property="dongmanmingcheng" column="dongmanmingcheng"/>
+        <result property="shipinfenlei" column="shipinfenlei"/>
+        <result property="biaoqian" column="biaoqian"/>
+        <result property="dongmantupian" column="dongmantupian"/>
+        <result property="dongmanzuozhe" column="dongmanzuozhe"/>
+        <result property="shipinjianjie" column="shipinjianjie"/>
+        <result property="faburiqi" column="faburiqi"/>
+        <result property="dongmanxiazai" column="dongmanxiazai"/>
+        <result property="jianjie" column="jianjie"/>
+        <result property="zaixianwangzhi" column="zaixianwangzhi"/>
+        <result property="clicktime" column="clicktime"/>
+        <result property="clicknum" column="clicknum"/>
+    </resultMap>
+
+	<select id="selectListVO"
+		resultType="com.entity.vo.RemendongmanVO" >
+		SELECT * FROM remendongman  remendongman         
+        <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+	<select id="selectVO"
+		resultType="com.entity.vo.RemendongmanVO" >
+		SELECT  remendongman.* FROM remendongman  remendongman 	
+ 		<where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+
+    <select id="selectListView"
+		resultType="com.entity.view.RemendongmanView" >
+
+		SELECT  remendongman.* FROM remendongman  remendongman 	        
+        <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+	<select id="selectView"
+		resultType="com.entity.view.RemendongmanView" >
+		SELECT * FROM remendongman  remendongman <where> 1=1 ${ew.sqlSegment}</where>
+	</select>
+	
+
+    <select id="selectValue" resultType="map" >
+        SELECT ${params.xColumn}, sum(${params.yColumn}) total FROM remendongman
+        <where> 1=1 ${ew.sqlSegment}</where>
+        group by ${params.xColumn}
+    </select>
+
+    <select id="selectTimeStatValue" resultType="map" >
+        <if test = 'params.timeStatType == "日"'>
+                SELECT DATE_FORMAT(${params.xColumn},'%Y-%m-%d') ${params.xColumn}, sum(${params.yColumn}) total FROM remendongman
+                <where> 1=1 ${ew.sqlSegment}</where>
+                group by DATE_FORMAT(${params.xColumn},'%Y-%m-%d')
+        </if>
+        <if test = 'params.timeStatType == "月"'>
+                SELECT DATE_FORMAT(${params.xColumn},'%Y-%m') ${params.xColumn}, sum(${params.yColumn}) total FROM remendongman
+                <where> 1=1 ${ew.sqlSegment}</where>
+                group by DATE_FORMAT(${params.xColumn},'%Y-%m')
+        </if>
+        <if test = 'params.timeStatType == "年"'>
+                SELECT DATE_FORMAT(${params.xColumn},'%Y') ${params.xColumn}, sum(${params.yColumn}) total FROM remendongman
+                <where> 1=1 ${ew.sqlSegment}</where>
+                group by DATE_FORMAT(${params.xColumn},'%Y')
+        </if>
+    </select>
+    
+    <select id="selectGroup" resultType="map" >
+        SELECT ${params.column} , count(1) total FROM remendongman
+        <where> 1=1 ${ew.sqlSegment}</where>
+        group by ${params.column}
+    </select>
+
+
+
+
+</mapper>
